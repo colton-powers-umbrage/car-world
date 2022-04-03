@@ -1,5 +1,5 @@
 const db = require('../db/models');
-const Dealership = db.Dealership;
+const Dealership = db.dealership;
 
 exports.create = async (dealership) => {
   return Dealership.create(dealership);

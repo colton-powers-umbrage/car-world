@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Dealership',
+      modelName: 'dealership',
     }
   );
   Dealership.beforeCreate((dealership, _) => {
