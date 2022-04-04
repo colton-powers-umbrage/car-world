@@ -1,9 +1,6 @@
 const request = require('supertest')
 const db = require('../src/db/models/index')
 const { app } = require('../app');
-
-
-
  //supertest hits the HTTP server (your app)
  beforeAll( async () => {
     await db.sequelize.query("DELETE FROM Dealerships");
@@ -15,15 +12,12 @@ beforeEach ( async () =>  {
 afterEach( async () => {
     await db.sequelize.query('DELETE FROM dealerships')
 })
-
 afterAll( async () => {
     db.sequelize.close()
 })
-
  describe('GET /dealership', () => {
     it("It responds with a list of all dealerships" , async () => {
         const dealerships = await request(app).get('/v1/dealerships')
-        console.log(dealerships.body)
         expect(dealerships.body.length).toBe(1)
         expect(dealerships.body[0]).toHaveProperty('id')
         expect(dealerships.body[0]).toHaveProperty('name')
@@ -40,7 +34,6 @@ afterAll( async () => {
          expect(individualDealership.location).toBe('houston')
      })
  })
-
  describe('POST /dealership', () => {
      it("It responds with the newly created dealership", async () => {
         const newDealership = await request(app)
@@ -60,7 +53,6 @@ afterAll( async () => {
      })
 
  })
-
  describe('PUT /dealership/:id', () => {
      it("It respond with an updated dealership", async () => {
          const newDealership = await request(app)
@@ -102,6 +94,16 @@ afterAll( async () => {
          expect(deletedDealership.statusCode).toBe(200)
          const response = await request(app).get('/v1/dealerships')
          expect(response.body.length).toBe(1)
+     })
+ })
+ describe('DELETE /dealerships', () => {
+     it("It responds with response of all dealerships", async () => {
+         const deletedDealerships = await request(app)
+         .delete('/v1/dealerships')
+         expect(deletedDealerships.body).toEqual({message: 'all dealerships were deleted successfully!'})
+         expect(deletedDealerships.statusCode).toBe(200)
+         const response = await request(app).get('/v1/dealerships')
+         expect(response.body.length).toBe(0)
      })
  })
 /*

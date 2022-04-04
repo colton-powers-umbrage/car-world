@@ -83,8 +83,8 @@ exports.deleteDealership = async ({ params }, res) => {
 
 exports.deleteAll = async (req, res) => {
   try {
-    const numRecords = await dealershipRepository.deleteAll();
-    res.send({ message: `${numRecords} dealerships were deleted successfully!` });
+    await dealershipRepository.deleteAll();
+    res.send({ message: `all dealerships were deleted successfully!` });
   } catch (error) {
     res.status(500).send({
       message:
